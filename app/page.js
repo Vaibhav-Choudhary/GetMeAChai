@@ -1,10 +1,11 @@
 import Image from "next/image";
-
+import '../app/globals.css'
 export default function Home() {
   return (
     <div className='flex py-8 justify-center flex-col items-center min-h-[50vh] md:min-h-[60vh] text-white'>
-      <div className='font-bold text-3xl mt-8 md:text-4xl '>
+      <div className='font-bold flex gap-4 items-baseline text-3xl mt-8 md:text-4xl '>
         Buy Me a Chai{" "}
+        <img className='rounded-full'src='/Tea.png' width={40} alt=''></img>
       </div>
 
       <p className='mt-4 text-center'>
@@ -29,40 +30,40 @@ export default function Home() {
         </h1>
         <div className='flex gap-5 justify-around'>
           <div className='item space-y-3 flex flex-col items-center justify-center'>
-            <img className='bg-slate-400 rounded-full p-2 text-black' width={88} src='' alt=''></img>
+            <img className='bg-slate-400 rounded-full p-2 text-black' width={88} src='/coin.png' alt=''></img>
             <p className='font-bold'>Fund Yourself</p>
             <p className='text-center'>Your fans are available for your help</p>
           </div>
           <div className='item space-y-3 flex flex-col items-center justify-center'>
-            <img className='bg-slate-400 rounded-full p-2 text-black' width={88} src='' alt=''></img>
+            <img className='bg-slate-400 rounded-full p-2 text-black' width={88} src='/security.png' alt=''></img>
             <p className='font-bold'>Fund Yourself</p>
             <p className='text-center'>Your fans are available for your help</p>
           </div>
           <div className='item space-y-3 flex flex-col items-center justify-center'>
-            <img className='bg-slate-400 rounded-full p-2 text-black' width={88} src='' alt=''></img>
+            <img className='bg-slate-400 rounded-full p-2 text-black' width={88} src='/Working.gif' alt=''></img>
             <p className='font-bold'>Fund Yourself</p>
             <p className='text-center'>Your fans are available for your help</p>
           </div>
         </div>
       </div>
 
-      <div className='text-white container mx-auto'>
+      <div className='text-white container mx-auto py-14'>
         <h1 className='text-2xl font-bold text-center my-8'>
           Learn more about us
         </h1>
         <div className='flex gap-5 justify-around'>
           <div className='item space-y-3 flex flex-col items-center justify-center'>
-            <img className='bg-slate-400 rounded-full p-2 text-black' width={88} src='' alt=''></img>
+            <img className='bg-slate-400 rounded-full p-2 text-black' width={88} src='/coin.png' alt=''></img>
             <p className='font-bold'>Fund Yourself</p>
             <p className='text-center'>Your fans are available for your help</p>
           </div>
           <div className='item space-y-3 flex flex-col items-center justify-center'>
-            <img className='bg-slate-400 rounded-full p-2 text-black' width={88} src='' alt=''></img>
+            <img className='bg-slate-400 rounded-full p-2 text-black' width={88} src='/security.png' alt=''></img>
             <p className='font-bold'>Fund Yourself</p>
             <p className='text-center'>Your fans are available for your help</p>
           </div>
           <div className='item space-y-3 flex flex-col items-center justify-center'>
-            <img className='bg-slate-400 rounded-full p-2 text-black' width={88} src='' alt=''></img>
+            <img className='bg-slate-400 rounded-full p-2 text-black' width={88} src='/Working.gif' alt=''></img>
             <p className='font-bold'>Fund Yourself</p>
             <p className='text-center'>Your fans are available for your help</p>
           </div>
