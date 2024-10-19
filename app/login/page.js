@@ -1,17 +1,14 @@
 "use client"
-import { useSession,signIn,signOut } from 'next-auth/react'
+import { useSession, signIn } from 'next-auth/react'
 import React from 'react'
-
+import { useRouter } from 'next/navigation' // Import from next/navigation instead of next/router
 
 const Login = () => {
-    const {data:session} = useSession();
-
-    if(session) {
-        return <>
-          Signed in as {session.user.email} <br/>
-          <button onClick={() => signOut()}>Sign out</button>
-        </>
-      }
+  const { data: session } = useSession();
+  if(session){
+  const router = useRouter(); // Using useRouter from next/navigation
+  router.push('/dashboard');
+ }
 
   return (
     <div className='text-white py-14 container mx-auto' >
@@ -104,7 +101,7 @@ const Login = () => {
 </button>
 
 
-<button
+<button  onClick={()=>{signIn("github")}}
     className="flex items-center w-80 text-black bg-slate-50 border border-gray-300 rounded-lg shadow-md max-w-xs px-6 py-2 text-sm font-medium  hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
     <svg className="h-6 w-6 mr-2" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink"
         viewBox="0 0 73 73" version="1.1">
@@ -149,7 +146,7 @@ const Login = () => {
 </button>
 
 
-</div>
+      </div>
 
       </div>
     </div>
