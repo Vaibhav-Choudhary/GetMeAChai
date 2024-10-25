@@ -1,14 +1,20 @@
 "use client"
 import { useSession, signIn } from 'next-auth/react'
-import React from 'react'
+import React, { useEffect } from 'react';
+
 import { useRouter } from 'next/navigation' // Import from next/navigation instead of next/router
 
 const Login = () => {
-  const { data: session } = useSession();
-  if(session){
-  const router = useRouter(); // Using useRouter from next/navigation
-  router.push('/dashboard');
- }
+    const { data: session } = useSession();
+    const router = useRouter(); // Using useRouter from next/navigation
+  
+    // Redirect to the dashboard if the user is already logged in
+    useEffect(() => {
+        document.title="Login Page"
+      if (session) {
+        router.push('/dashboard');
+      }
+    }, [session, router]);
 
   return (
     <div className='text-white py-14 container mx-auto' >

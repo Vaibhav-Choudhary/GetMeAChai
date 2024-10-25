@@ -2,17 +2,29 @@
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation';
 import React, { useEffect,useState } from 'react'
+import { fetchuser , updateProfile } from '@/actions/useractions';
+import { ToastContainer, toast} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { Bounce } from 'react-toastify';
+
 
 const Dashboard = () => {
-    const {data:session}=useSession();
+    const {data:session , update}=useSession();
     const router = useRouter();
     const [form,setForm]= useState({});
 
-    useEffect(()=>{
-        if(!session){
-            router.push('/login')
-        }
-    },[router,session]);
+    useEffect(() => {
+      if (session) {
+        getData(); // Call getData only after session exists
+      } else {
+        router.push('/login');
+      }
+    }, [router, session]);
+
+    const getData = async () =>{
+      let u = await fetchuser(session.user.name);
+      setForm(u);
+    }
 
     const handleChange = (e) => {
         setForm({
@@ -20,13 +32,31 @@ const Dashboard = () => {
             [e.target.name]: e.target.value
         });
     };
+
+    const handleSubmit =async (e)=>{
+        let a = await updateProfile(e,session.user.name);
+        toast('Profile Updated' , {position:"top-right",
+          autoClose:5000,
+          hideProgressBar:false,
+          closeOnClick:true,
+          pauseOnFocusLoss:true,
+          draggabl:true,
+          pauseOnHover:true,
+          theme: "dark",
+          transition: Bounce,});
+
+    }
     
 
   return (
+    <>
+    <ToastContainer  >
+      
+    </ToastContainer>
     <div className='container mx-auto py-5'>
         <h1 className='text-center my-5 text-3xl font-bold'>Welcome To Your Dashboard</h1>
 
-        <form className='max-w-2xl mx-auto'>
+        <form className='max-w-2xl mx-auto' action={handleSubmit}>
 
 
                     {/* name */}
@@ -82,15 +112,15 @@ const Dashboard = () => {
 
                     {/*Image Url */}
                     <div className="p-2">
-                    <label htmlFor="cover" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                    <label htmlFor="coverpic " className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     Cover Picture Url
                      </label>
                      <input
-                       value={form.cover ? form.cover : ""}
+                       value={form.coverpic? form.coverpic: ""}
                        onChange={handleChange}
                        type="text"
-                       name="cover"
-                       id="cover"
+                       name="coverpic" 
+                       id="coverpic" 
                        className="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs 
                                   focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 
                                   dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -98,15 +128,15 @@ const Dashboard = () => {
                      </div>
 
                      <div className="p-2">
-                    <label htmlFor="profile" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                    <label htmlFor="profilepic" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     Profile Picture Url
                      </label>
                      <input
-                       value={form.profile ? form.profile : ""}
+                       value={form.profilepic ? form.profilepic : ""}
                        onChange={handleChange}
                        type="text"
-                       name="profile"
-                       id="profile"
+                       name="profilepic"
+                       id="profilepic"
                        className="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs 
                                   focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 
                                   dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -149,13 +179,14 @@ const Dashboard = () => {
                      />
                      </div>
 
-                    <button type='submit'  className='my-8 w-full  text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2 text-center '>
+                    <button type='submit'  className='my-8 w-full  text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl   focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2 text-center '>
                         Save
                     </button>
 
 
     </form>
     </div>
+    </>
   )
 }
 
