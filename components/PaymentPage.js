@@ -79,11 +79,11 @@ const PaymentPage = ({ username }) => {
             <div className='cover w-full bg-red-50 relative'>
                 <img
                     className='object-cover w-full h-[350px]'
-                    src='https://i.imgur.com/gusdyjg.gif'
+                    src={`${currentUser.coverpic}`}
                     alt=''
                 />
                 <div className='absolute -bottom-20 right-[45%] border-2 border-white rounded-full'>
-                    <img className='rounded-full' width={150} height={150} src='https://pbs.twimg.com/media/Fx4qiO5WAAklER5.jpg'></img>
+                    <img className='rounded-full' width={150} height={150} src={`${currentUser.profilepic}`}></img>
                 </div>
             </div>
 
@@ -93,16 +93,17 @@ const PaymentPage = ({ username }) => {
                 </div>
 
                 <div>
-                    Creating Animated art for VTT's
+                    Let's help {username} get a chai!
                 </div>
 
                 <div>
-                    9,719 members, 82 posts, 15,450 releases
+                    {payments.length} Payments -  {currentUser.name} has raised Rs.{payments.reduce((a,b)=>a+b.amount,0)}
                 </div>
 
                 <div className='payment flex gap-3 w-[80%] mx-auto mt-11'>
                     <div className='supporters w-1/2 bg-slate-900 rounded-lg text-white p-10'>
                         <h2 className='text-center text-2xl font-bold my-5'> Supporters </h2>
+                        {payments.length==0 && <div>No Supporters yet</div>}
                         <ul>
     {payments.map((p) => {
         return (
@@ -154,8 +155,9 @@ const PaymentPage = ({ username }) => {
                             />
 
                             <button
-                                className='text-white bg-gradient-to-br from-purple-900 to-blue-800 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2 text-center'
-                                onClick={() => pay(paymentForm.amount)}
+                                className='text-white bg-gradient-to-br from-purple-900 to-blue-800 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2 text-center disabled:from-slate-600 disabled:to-slate-800'
+                                disabled={!paymentForm.name || paymentForm.name.length < 3 || 
+                                    !paymentForm.message || paymentForm.message.length < 4 || paymentForm.amount < 1}  onClick={() => pay(paymentForm.amount)}
                             >
                                 Pay
                             </button>

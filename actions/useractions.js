@@ -49,12 +49,12 @@ export const fetchuser = async (username) => {
 
 export const fetchpayments = async (username) => {
     await connectDB();
-    let payments = await Payment.find({ to_user: username }).sort({ amount: -1 }).lean();
+    let payments = await Payment.find({ to_user: username,done:true}).sort({ amount: -1 }).limit(10).lean();
     
     if (!payments || payments.length === 0) {
         return []; // Return an empty array if no payments are found
     }
-    
+     
     // Convert MongoDB ObjectId to string
     return payments.map(payment => ({
         ...payment,
@@ -63,3 +63,40 @@ export const fetchpayments = async (username) => {
         updatedAt: payment.updatedAt.toISOString(),
     }));
 };
+
+export const updateProfile = async (data, oldusername, oldemail) => {
+    await connectDB();
+    let ndata = Object.fromEntries(data); // Convert form data to an object
+    //console.log(ndata);
+
+    // New username from the incoming data
+    let newusername = ndata.username;
+
+    // Check if the new username already exists in the database
+    const existingUser = await User.findOne({ username: newusername });
+
+    if (existingUser && existingUser.username !== oldusername) {
+        // If the username already exists and is not the old username, return an error
+        return { error: 'Username already taken' };
+    }
+
+    // Prepare the update object, keeping the old username and email intact
+    let updateData = {
+        username: oldusername, // Ensure old username is preserved
+        email: oldemail,       // Keep the old email intact
+    };
+
+    // Add other fields to update if they exist in ndata
+    if (ndata.name) updateData.name = ndata.name; // Update name if provided
+    if (ndata.coverpic) updateData.coverpic = ndata.coverpic; // Update cover pic URL if provided
+    if (ndata.profilepic) updateData.profilepic = ndata.profilepic; // Update profile pic URL if provided
+    if (ndata.razorpayid) updateData.razorpayid = ndata.razorpayid; // Update Razorpay ID if provided
+    if (ndata.razorpaysecret) updateData.razorpaysecret = ndata.razorpaysecret; // Update Razorpay secret if provided
+
+    // Update the user profile with the new data
+    await User.updateOne({ username: oldusername }, { $set: updateData });
+    await Payment.updateMany({to_user:oldusername},{to_user:ndata.newusername}); 
+
+    return { error: 0 }; // No errors
+};
+

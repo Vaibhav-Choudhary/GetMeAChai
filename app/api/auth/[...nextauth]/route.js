@@ -18,24 +18,24 @@ export const authoptions = NextAuth({
   callbacks: {
     async signIn({ user, account, profile, email, credentials }) {
       if (account.provider == "github" ) {
-        //connect to DB
+        // Connect to DB
         await connectDB();
-
-        //check if user already exists in database
-        const currentUser = await User.findOne({ username: (account.provider == "github")? "_" + user.email.split('@')[0] : user.email.split('@')[0] });
+  
+        // Check if the user already exists in the database by email
+        const currentUser = await User.findOne({ email: user.email });
+  
         if (!currentUser) {
-          //create a new user
+          // Create a new user with a unique username
+          const username = "_" + user.email.split('@')[0];
           const newUser = await User.create({
             email: user.email,
-            username: (account.provider == "github")? "_" + user.email.split('@')[0] : user.email.split('@')[0],
+            username: username,
           });
-
           user.name = newUser.username;
-        }
-        else {
+        } else {
+          // If user exists, return the current username
           user.name = currentUser.username;
         }
-
       }
       return true;
     }
