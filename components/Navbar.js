@@ -22,7 +22,6 @@ const Navbar = () => {
                     <img className='rounded-full' src='/Tea.png' width={20} alt='Logo' />
                 </div>
             </Link>
-            
 
             {/* Navbar Items */}
             <div className={`flex md lg:flex-row lg:flex gap-2 md:gap-4 lg:gap-6 items-center `}>
@@ -59,11 +58,11 @@ const Navbar = () => {
                                     <li>
                                         <Link href="/dashboard" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Dashboard</Link>
                                     </li>
-                                    <li>
+                                    {/* <li>
                                         <Link href="" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Settings</Link>
-                                    </li>
+                                    </li> */}
                                     <li>
-                                        <Link href="" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Earnings</Link>
+                                        <Link href="/search" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Search Creator</Link>
                                     </li>
                                     <li>
                                         <Link href="" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" onClick={handleSignOut}>Sign out</Link>
